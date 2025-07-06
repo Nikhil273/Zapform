@@ -1,5 +1,5 @@
 import React from 'react'
-
+import { Link } from 'react-router-dom'
 const About = () => {
   return (
     <div><section className="bg-gray-50 py-20 px-6" id="about">
@@ -15,7 +15,13 @@ const About = () => {
           Zapform is designed to help indie developers, designers, and makers focus on building beautiful frontends while we handle the backend plumbing for forms.
         </p>
       </div>
+      <div className="mt-10 text-center">
+        <Link to="/register" className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded-full transition">
+          Get Started Free
+        </Link>
+      </div>
     </section>
+
     </div>
   )
 }
