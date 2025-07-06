@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form
+      action="https://serverlessform.onrender.com/api/submit/686512359ca4f2e3d1b525b4"
+      method="POST"
+      style="max-width: 400px; margin: auto"
+    >
+      <h2>Contact Form</h2>
+
+      <label for="name">Name</label><br />
+      <input type="text" id="name" name="name" required /><br /><br />
+
+      <label for="age">Age</label><br />
+      <input type="number" id="age" name="age" min="1" required /><br /><br />
+
+      <label for="message">Message</label><br />
+      <textarea id="message" name="message" rows="5" required></textarea
+      ><br /><br />
+
+      <!-- Honeypot spam protection (invisible to humans) -->
+      <input
+        type="text"
+        name="_honeypot"
+        style="display: none"
+        tabindex="-1"
+        autocomplete="off"
+      />
+
+      <button type="submit">Send</button>
+    </form>
+  </body>
+</html>
