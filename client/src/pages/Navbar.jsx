@@ -23,7 +23,7 @@ const Navbar = () => {
                 <span className="sr-only"> Zapform  </span>
                 <img
                   alt="Zapform Logo"
-                  src='../public/zapform.png'
+                  src='/zapform-logo.png'
                   className="h-8 w-auto"
                 />
               </a>

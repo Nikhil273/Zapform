@@ -6,6 +6,7 @@ import CreateForm from './pages/CreateForm';
 import HomePage from './pages/HomePage';
 import About from './pages/About';
 import ProtectedRoute from "./components/ProtectedRoute";
+import UpdateCreate from './pages/UpdateCreate'; // Assuming this is the edit form page
 function App() {
   return (
     <BrowserRouter>
@@ -22,6 +23,13 @@ function App() {
             </ProtectedRoute>
           } />
         <Route path="/about" element={<About />} />
+        <Route path="/edit/:id"
+          element={
+            <ProtectedRoute>
+              <UpdateCreate />
+            </ProtectedRoute>
+          } />
+
       </Routes>
     </BrowserRouter>
   );

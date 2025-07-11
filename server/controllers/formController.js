@@ -67,3 +67,49 @@ exports.deleteForm = async (req, res) => {
   }
 }
 
+exports.editForm = async (req, res) => {
+  const { name, notificationEmail, redirectUrl } = req.body;
+
+  try {
+    const form = await Form.findById(req.params.id);
+
+    if (!form) {
+      return res.status(404).json({ msg: "Form not found" });
+    }
+
+    // Check if the form belongs to the logged-in user
+    if (form.owner.toString() !== req.user.id) {
+      return res.status(401).json({ msg: "Unauthorized" });
+    }
+
+    form.formtitle = name || form.formtitle;
+    form.notificationEmail = notificationEmail || form.notificationEmail;
+    form.redirectUrl = redirectUrl || form.redirectUrl;
+
+    const updatedForm = await form.save();
+    return res.status(200).json({ msg: "Form updated successfully", form: updatedForm });
+  } catch (error) {
+    console.error("Edit form error:", error.message);
+    return res.status(500).json({ msg: "Server error" });
+  }
+};
+
+exports.FormById = async (req, res) => {
+  try {
+    const form = await Form.findById(req.params.id).select('-__v');
+
+    if (!form) {
+      return res.status(404).json({ msg: "Form not found" });
+    }
+
+    // Check if the form belongs to the logged-in user
+    if (form.owner.toString() !== req.user.id) {
+      return res.status(401).json({ msg: "Unauthorized" });
+    }
+
+    return res.status(200).json({ form });
+  } catch (error) {
+    console.error("Get form by ID error:", error.message);
+    return res.status(500).json({ msg: "Server error" });
+  }
+}

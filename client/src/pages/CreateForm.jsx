@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "../services/api"; // axios instance with baseURL & token
-import toast from "react-hot-toast";
+import { ToastContainer, toast } from 'react-toastify';
 
 const CreateForm = () => {
   const [title, setTitle] = useState("");
@@ -12,13 +12,12 @@ const CreateForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log("Creating form with data:")
+      // eslint-disable-next-line no-unused-vars
       const res = await API.post("/forms/createform", {
         name: title,
         notificationEmail,
-        redirectUrl
+        redirectUrl,
       });
-      console.log("Form created:", res.data);
       toast.success("Form created!");
       navigate("/dashboard");
     } catch (err) {
@@ -28,42 +27,54 @@ const CreateForm = () => {
   };
 
   return (
-    <div className="max-w-xl mx-auto mt-10 p-6 bg-white rounded-xl shadow-md">
-      <h2 className="text-2xl font-bold mb-4">Create New Form</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4 sm:px-6 lg:px-8">
+      <ToastContainer />
+      <div className="max-w-md w-full bg-white p-8 rounded-xl shadow-md">
+        <h2 className="text-2xl font-bold text-indigo-700 mb-6 text-center">Create a New Form</h2>
 
-        <input
-          type="text"
-          className="w-full border p-2 rounded"
-          placeholder="Form Title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          required
-        />
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Form Title</label>
+            <input
+              type="text"
+              placeholder="Enter form title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              required
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600"
+            />
+          </div>
 
-        <input
-          type="email"
-          className="w-full border p-2 rounded"
-          placeholder="email for notifications"
-          value={notificationEmail}
-          onChange={(e) => setNotificationEmail(e.target.value)}
-        />
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Notification Email</label>
+            <input
+              type="email"
+              placeholder="you@example.com"
+              value={notificationEmail}
+              onChange={(e) => setNotificationEmail(e.target.value)}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600"
+            />
+          </div>
 
-        <input
-          type="url"
-          className="w-full border p-2 rounded"
-          placeholder="Redirect URL (optional)"
-          value={redirectUrl}
-          onChange={(e) => setRedirectUrl(e.target.value)}
-        />
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Redirect URL</label>
+            <input
+              type="url"
+              placeholder="https://your-redirect-url.com"
+              value={redirectUrl}
+              onChange={(e) => setRedirectUrl(e.target.value)}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600"
+            />
+          </div>
 
-        <button
-          type="submit"
-          className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700"
-        >
-          Create Form
-        </button>
-      </form>
+          <button
+            type="submit"
+            className="w-full bg-indigo-600 text-white py-2 px-4 rounded-lg hover:bg-indigo-700 transition"
+          >
+            Create Form
+          </button>
+        </form>
+      </div>
     </div>
   );
 };
