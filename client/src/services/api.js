@@ -11,5 +11,3 @@ API.interceptors.request.use((config) => {
 });
 
 export default API;
-
-// || 'https://serverlessform.onrender.com/api'

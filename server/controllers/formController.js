@@ -19,7 +19,8 @@ exports.createForm = async (req, res) => {
     });
 
     const savedForm = await form.save();
-    const endpoint = `${process.env.BASE_URL}/api/submit/${savedForm._id}`;
+    const endpoint = `http://localhost:8080/api/submit/${savedForm._id}`; // Construct the endpoint URL
+    // const endpoint = `${process.env.BASE_URL}/api/submit/${savedForm._id}`;
     form.endpoint = endpoint; // Save the endpoint in the form document
     await form.save(); // Save the updated form with endpoint
 

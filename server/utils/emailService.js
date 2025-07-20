@@ -15,7 +15,7 @@ exports.sendEmail = async (to, formData, formtitle) => {
 
 
   await transporter.sendMail({
-    from: `${formtitle} New form submission`,
+    from: 'Zapform : New Form Submission',
     to,
     subject: 'New Form Submission',
     html: htmlBody,
