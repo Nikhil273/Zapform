@@ -17,8 +17,6 @@ function Login() {
     e.preventDefault();
     setError('');
     try {
-
-
       const api_res = await API.post('/auth/login', form);
       localStorage.setItem('token', api_res.data.token);
       toast.success('Login successful');
@@ -26,6 +24,7 @@ function Login() {
         navigate('/dashboard');
       }, 1500);
     } catch (err) {
+      console.error('Login error:', err);
       toast.error(err.response?.data?.msg || 'Login failed');
       setError(err.response?.data?.msg || 'Login failed');
     }

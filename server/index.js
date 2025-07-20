@@ -33,45 +33,26 @@ if (process.env.NODE_ENV === 'production') {
 
 // CORS configuration
 const corsOptions = {
-  origin: process.env.NODE_ENV === 'production' 
-    ? ['https://zapform.netlify.app', 'https://zapform.vercel.app', 'https://nikhil273.github.io'] // Add your actual frontend domains
-    : ['http://localhost:5173', 'http://localhost:3000'],
+  origin: process.env.NODE_ENV === 'production'
+    ? ['https://zapform.netlify.app', 'https://zapform.vercel.app', 'https://nikhil273.github.io', 'https://main--zapform.netlify.app'] // Add your actual frontend domains
+    : ['http://localhost:5173', 'http://localhost:3000', 'http://127.0.0.1:5173'], // Allow both localhost and 127.0.0.1 for development
   credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
 };
 
 app.use(cors(corsOptions));
 app.use(express.urlencoded({ extended: true }));
-// Middleware
 app.use(express.json({ limit: '10kb' }));
+
 app.use('/api/auth', authRoutes);
 app.use('/api/forms', formRoutes);
 app.use('/api', submissionRoutes);
 
-// Global error handler
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({ 
-    message: process.env.NODE_ENV === 'production' 
-      ? 'Something went wrong!' 
-      : err.message 
-  });
-});
-
-// Handle 404
-app.use('*', (req, res) => {
-  res.status(404).json({ message: 'Route not found' });
-});
-
-const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-  console.log(`Environment: ${process.env.NODE_ENV}`);
-});
-
 // Health check endpoint
 app.get('/health', (req, res) => {
-  res.status(200).json({ 
-    status: 'OK', 
+  res.status(200).json({
+    status: 'OK',
     timestamp: new Date().toISOString(),
     uptime: process.uptime()
   });
@@ -79,5 +60,26 @@ app.get('/health', (req, res) => {
 
 app.get('/', (req, res) => {
   res.send('Welcome to the Zapform API');
+});
+
+// Global error handler
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({
+    message: process.env.NODE_ENV === 'production'
+      ? 'Something went wrong!'
+      : err.message
+  });
+});
+
+// Handle 404 - catch all unmatched routes (MUST BE LAST)
+app.use((req, res) => {
+  res.status(404).json({ message: 'Route not found' });
+});
+
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+  console.log(`Environment: ${process.env.NODE_ENV}`);
 });
 

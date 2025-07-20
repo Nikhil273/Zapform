@@ -17,7 +17,7 @@ exports.register = async (req, res) => {
 
   try {
     // Check if user already exists
-    let existingUser = await User.findOne({ email });
+    let existingUser = await User.findOne({ email: email.toLowerCase() });
     if (existingUser) {
       return res.status(409).json({ msg: 'User already exists with this email' });
     }
@@ -28,7 +28,7 @@ exports.register = async (req, res) => {
 
     const user = new User({
       username,
-      email,
+      email: email.toLowerCase(), // Store email in lowercase
       password: hashedPassword,
     });
 
@@ -54,26 +54,35 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
+    console.log('Validation errors:', errors.array());
     return res.status(422).json({ msg: errors.array() });
   }
 
   const { email, password } = req.body;
+  console.log('Login attempt for email:', email);
 
   try {
     // Check if user exists
-    let user = await User.findOne({ email });
+    let user = await User.findOne({ email: email.toLowerCase() }); // Convert to lowercase
+    console.log('User found:', !!user);
+
     if (!user) {
+      console.log('User not found for email:', email);
       return res.status(401).json({ msg: 'Invalid Credentials' });
     }
 
     // Check password
     const isMatch = await bcrypt.compare(password, user.password);
+    console.log('Password match:', isMatch);
+
     if (!isMatch) {
+      console.log('Password mismatch for user:', email);
       return res.status(401).json({ msg: 'Invalid Credentials' });
     }
 
     const payload = { user: { id: user.id } };
     const token = jwtToken(payload);
+    console.log('Login successful for:', email);
 
     return res.status(200).json({
       token,
