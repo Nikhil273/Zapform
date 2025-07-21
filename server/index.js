@@ -34,14 +34,27 @@ if (process.env.NODE_ENV === 'production') {
 // CORS configuration
 const corsOptions = {
   origin: process.env.NODE_ENV === 'production'
-    ? ['https://zapform-amber.vercel.app/'] // Add your actual frontend domains
-    : ['http://localhost:5173', 'https://zapform-amber.vercel.app/', 'http://127.0.0.1:5173'], // Allow both localhost and 127.0.0.1 for development
+    ? ['https://zapform-amber.vercel.app', 'https://zapform.onrender.com'] // Production domains
+    : ['http://localhost:5173', 'http://localhost:5174', 'http://127.0.0.1:5173', 'http://127.0.0.1:5174'], // Development domains
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 };
 
 app.use(cors(corsOptions));
+
+// Debug CORS in production
+if (process.env.NODE_ENV === 'production') {
+  app.use((req, res, next) => {
+    console.log('Request Origin:', req.headers.origin);
+    console.log('CORS Headers:', req.headers['access-control-request-headers']);
+    next();
+  });
+}
+
+// Handle preflight requests
+app.options('*', cors(corsOptions));
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json({ limit: '10kb' }));
 
