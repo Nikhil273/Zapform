@@ -34,8 +34,8 @@ if (process.env.NODE_ENV === 'production') {
 // CORS configuration
 const corsOptions = {
   origin: process.env.NODE_ENV === 'production'
-    ? ['https://zapform.netlify.app', 'https://zapform.vercel.app', 'https://nikhil273.github.io', 'https://main--zapform.netlify.app'] // Add your actual frontend domains
-    : ['http://localhost:5173', 'http://localhost:3000', 'http://127.0.0.1:5173'], // Allow both localhost and 127.0.0.1 for development
+    ? ['https://zapform-amber.vercel.app/'] // Add your actual frontend domains
+    : ['http://localhost:5173', 'https://zapform-amber.vercel.app/', 'http://127.0.0.1:5173'], // Allow both localhost and 127.0.0.1 for development
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
