@@ -43,7 +43,7 @@ exports.register = async (req, res) => {
 
     const emailVerificationToken = jwtToken(emailVerificationPayload, process.env.JWT_EMAIL)
 
-    const verificationLink = `http://localhost:3001/api/auth/verify/${emailVerificationToken}`;
+    const verificationLink = `https://zapform.onrender.com/api/auth/verify/${emailVerificationToken}`;
 
     await sendEmail(email, 'Verify Your Email', `Click to verify: ${verificationLink}`);
 
