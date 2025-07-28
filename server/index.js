@@ -46,7 +46,7 @@ app.use(cors(corsOptions));
 // Debug CORS in production
 if (process.env.NODE_ENV === 'production') {
   app.use((req, res, next) => {
-    console.log('Request Origin:', req.headers.origin);
+    // console.log('Request Origin:', req.headers.origin);
     console.log('CORS Headers:', req.headers['access-control-request-headers']);
     next();
   });

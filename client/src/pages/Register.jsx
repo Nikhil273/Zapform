@@ -36,11 +36,12 @@ function Register() {
 
     try {
       const res = await API.post('/auth/register', form);
-      localStorage.setItem('token', res.data.token);
-      toast.success('Account created successfully! Welcome to Zapform!');
+      // localStorage.setItem('token', res.data.token);
+      console.log(res?.data?.msg);
+      toast.success(res?.data?.msg);
       setTimeout(() => {
-        navigate('/dashboard');
-      }, 1500);
+        navigate('/login');
+      }, 2000);
     } catch (err) {
       console.error(err);
       const errorMessage = err.response?.data?.msg || 'Registration failed. Please try again.';
@@ -74,6 +75,8 @@ function Register() {
   };
 
   return (
+
+
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-cyan-50 flex items-center justify-center px-4 sm:px-6 lg:px-8">
       <ToastContainer
         position="top-right"
@@ -195,7 +198,7 @@ function Register() {
                   <div className="flex justify-between items-center text-sm">
                     <span className="text-gray-600">Password strength:</span>
                     <span className={`font-medium ${passwordStrength <= 2 ? 'text-red-500' :
-                        passwordStrength <= 3 ? 'text-yellow-500' : 'text-green-500'
+                      passwordStrength <= 3 ? 'text-yellow-500' : 'text-green-500'
                       }`}>
                       {getPasswordStrengthText()}
                     </span>

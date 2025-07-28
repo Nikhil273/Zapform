@@ -1,6 +1,6 @@
 const express = require('express');
 const { check } = require('express-validator');
-const { register, login } = require('../controllers/authController');
+const { register, login, verifyEmail } = require('../controllers/authController');
 const authMiddleware = require('../middleware/authMiddleware');
 const User = require('../models/User');
 
@@ -19,7 +19,10 @@ router.post('/login', [
   check('password', 'Password is required').exists(),
 ], login);
 
+
+router.get('/verify/:token', verifyEmail);
 // Get Current User Route
+
 router.get('/me', authMiddleware, async (req, res) => {
   const user = await User.findById(req.user.id).select('-__v -password -createdAt -updatedAt');
   if (!user) {
@@ -27,5 +30,7 @@ router.get('/me', authMiddleware, async (req, res) => {
   }
   res.json({ user });
 });
+
+
 
 module.exports = router;

@@ -6,10 +6,12 @@ import CreateForm from './pages/CreateForm';
 import HomePage from './pages/HomePage';
 import About from './pages/About';
 import ProtectedRoute from "./components/ProtectedRoute";
-import UpdateCreate from './pages/UpdateCreate'; // Assuming this is the edit form page
+import UpdateCreate from './pages/UpdateCreate';
+import { ToastContainer } from 'react-toastify';
 function App() {
   return (
     <BrowserRouter>
+      <ToastContainer />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/register" element={<Register />} />

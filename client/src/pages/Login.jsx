@@ -30,6 +30,9 @@ function Login() {
       }, 1500);
     } catch (err) {
       console.error('Login error:', err);
+      if (err.response?.status === 403) {
+        return toast.error('Please verify your email before logging in, Kindly check your inbox.');
+      }
       const errorMessage = err.response?.data?.msg || 'Login failed. Please try again.';
       toast.error(errorMessage);
       setError(errorMessage);
