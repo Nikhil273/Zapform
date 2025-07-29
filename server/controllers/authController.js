@@ -2,7 +2,8 @@ const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const { jwtToken } = require('../config/jwt');
 const { validationResult } = require('express-validator');
-const sendEmail = require('../utils/sendEmail');
+// const sendEmail = require('../utils/sendEmail');
+const { sendEmail } = require('../utils/emailService');
 const jwt = require('jsonwebtoken');
 
 
@@ -54,7 +55,10 @@ exports.register = async (req, res) => {
 
   } catch (error) {
     console.error('Registration Error:', error.message);
-    return res.status(500).json({ msg: 'Server Error' });
+    if (error.code === 11000) {
+      return res.status(409).json({ msg: 'Username already exists' });
+    }
+    return res.status(500).json({ msg: "server error" });
   }
 };
 
@@ -127,7 +131,8 @@ exports.verifyEmail = async (req, res) => {
     user.isVerified = true;
     await user.save();
 
-    res.send('Email verified successfully');
+    res.send('Email verified successfully! Plese login to continue.');
+
   } catch (err) {
     console.log('JWT Verification Error:', err.message);
     console.log('Error name:', err.name);
